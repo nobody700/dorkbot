@@ -62,10 +62,12 @@ BACKEND_FRAMEWORKS = [
 ]
 DESIGN_LIBRARIES = ["bootstrap", "tailwind", "bulma", "foundation", "materialize"]
 
+
+def setup_chrome_driver():
     try:
         logger.info("Setting up ChromeDriver automatically...")
-    #     subprocess.run(['apt-get', 'update'], check=True)
-    #     subprocess.run(['apt-get', 'install', '-y', 'wget', 'unzip'], check=True)
+        # subprocess.run(['apt-get', 'update'], check=True)
+        # subprocess.run(['apt-get', 'install', '-y', 'wget', 'unzip'], check=True)
 
         chromedriver_url = (
             "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/"
@@ -75,12 +77,7 @@ DESIGN_LIBRARIES = ["bootstrap", "tailwind", "bulma", "foundation", "materialize
         logger.info("ChromeDriver setup completed successfully.")
     except Exception as e:
         logger.error(f"Error setting up ChromeDriver: {e}")
-        # If it fails, you can comment out `raise` if you want to try using a pre-installed driver => @Mod_By_Kamal
-        raise
-
-# ----------------------------------------------------------------------------------
-# JSON UTILS => @Mod_By_Kamal
-# ----------------------------------------------------------------------------------
+        raise  
 
 def load_registered_users():
 
