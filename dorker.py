@@ -67,6 +67,8 @@ DESIGN_LIBRARIES = ["bootstrap", "tailwind", "bulma", "foundation", "materialize
 # ----------------------------------------------------------------------------------
 
 def setup_chrome_driver():
+    # Skipping automatic setup of ChromeDriver to avoid using system-specific commands like 'apt-get'
+    logger.info("Automatic ChromeDriver setup skipped. Please ensure chromedriver is available in the ./bin/ directory.")
     """
     Attempt to install ChromeDriver (131.0.6778.108) on Ubuntu.
     Comment out if you prefer to manage ChromeDriver manually.
@@ -82,8 +84,8 @@ def setup_chrome_driver():
         )
         subprocess.run(['wget', chromedriver_url, '-O', 'chromedriver_linux64.zip'], check=True)
         subprocess.run(['unzip', '-o', 'chromedriver_linux64.zip'], check=True)
-        subprocess.run(['mv', 'chromedriver-linux64/chromedriver', '/usr/local/bin/chromedriver'], check=True)
-        subprocess.run(['chmod', '+x', '/usr/local/bin/chromedriver'], check=True)
+        subprocess.run(['mv', 'chromedriver-linux64/chromedriver', './bin/chromedriver'], check=True)
+        subprocess.run(['chmod', '+x', './bin/chromedriver'], check=True)
 
         # Cleanup @Mod_By_Kamal
         subprocess.run(['rm', '-rf', 'chromedriver_linux64.zip', 'chromedriver-linux64'], check=True)
@@ -164,7 +166,7 @@ def create_local_driver():
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
 
-    service = ChromeService(executable_path=os.path.expanduser('./bin/chromedriver'))
+    service = ChromeService(executable_path=os.path.expanduser("./bin/chromedriver"))
     local_driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Apply stealth settings => @Mod_By_Kamal
