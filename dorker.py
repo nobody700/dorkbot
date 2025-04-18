@@ -173,7 +173,7 @@ def click_google_consent_if_needed(driver, wait_seconds=2):
         "div[role='none'] button:nth-of-type(2)",  # fallback pattern => @Mod_By_Kamal
     ]
     for sel in possible_selectors:
-        try:
+    try:
             btn = driver.find_element(By.CSS_SELECTOR, sel)
             btn.click()
             logger.info(f"Clicked Google consent button: {sel}")
@@ -200,7 +200,7 @@ def google_search(query: str, limit: int = 10, offset: int = 0):
     for page_index in range(max_pages):
         start_val = offset + (page_index * 100)
         driver = create_local_driver()
-        try:
+    try:
             # Add hl=en & gl=us to standardize => @Mod_By_Kamal
             url = (
                 f"https://www.google.com/search?q={query}"
@@ -302,7 +302,7 @@ def check_site_details(url: str):
 
     domain = extract_domain(url)
     if domain:
-        try:
+    try:
             socket.gethostbyname(domain)
             details["dns"] = "resolvable"
         except:
@@ -348,7 +348,7 @@ def check_site_details(url: str):
     except requests.exceptions.SSLError:
         # SSL invalid
         details["ssl"] = "invalid"
-        try:
+    try:
             # Try again with verify=False
             resp = requests.get(url, timeout=10, verify=False)
             details["status_code"] = resp.status_code
@@ -602,7 +602,7 @@ async def cmd_bord(update: Update, context: ContextTypes.DEFAULT_TYPE):
     registered_users = load_registered_users()
     count_sent = 0
     for uid in registered_users:
-        try:
+    try:
             await context.bot.send_message(
                 chat_id=uid,
                 text=f"[Broadcast]\n{message_to_broadcast}"
