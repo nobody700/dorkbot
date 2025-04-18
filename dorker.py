@@ -164,7 +164,7 @@ def create_local_driver():
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
 
-    service = ChromeService(executable_path='/usr/local/bin/chromedriver')
+    service = ChromeService(executable_path=os.path.expanduser('./bin/chromedriver'))
     local_driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Apply stealth settings => @Mod_By_Kamal
