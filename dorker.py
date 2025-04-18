@@ -62,15 +62,6 @@ BACKEND_FRAMEWORKS = [
 ]
 DESIGN_LIBRARIES = ["bootstrap", "tailwind", "bulma", "foundation", "materialize"]
 
-# ----------------------------------------------------------------------------------
-# CHROMEDRIVER SETUP (OPTIONAL AUTO-INSTALL) => @Mod_By_Kamal
-# ----------------------------------------------------------------------------------
-
-# def setup_chrome_driver():
-    """
-    Attempt to install ChromeDriver (131.0.6778.108) on Ubuntu.
-    Comment out if you prefer to manage ChromeDriver manually.
-    """
     try:
         logger.info("Setting up ChromeDriver automatically...")
     #     subprocess.run(['apt-get', 'update'], check=True)
@@ -80,13 +71,7 @@ DESIGN_LIBRARIES = ["bootstrap", "tailwind", "bulma", "foundation", "materialize
             "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/"
             "131.0.6778.108/linux64/chromedriver-linux64.zip"
         )
-    #     subprocess.run(['wget', chromedriver_url, '-O', 'chromedriver_linux64.zip'], check=True)
-    #     subprocess.run(['unzip', '-o', 'chromedriver_linux64.zip'], check=True)
-    #     subprocess.run(['mv', 'chromedriver-linux64/chromedriver', '/usr/local/bin/chromedriver'], check=True)
-    #     subprocess.run(['chmod', '+x', '/usr/local/bin/chromedriver'], check=True)
 
-        # Cleanup @Mod_By_Kamal
-    #     subprocess.run(['rm', '-rf', 'chromedriver_linux64.zip', 'chromedriver-linux64'], check=True)
         logger.info("ChromeDriver setup completed successfully.")
     except Exception as e:
         logger.error(f"Error setting up ChromeDriver: {e}")
@@ -98,10 +83,7 @@ DESIGN_LIBRARIES = ["bootstrap", "tailwind", "bulma", "foundation", "materialize
 # ----------------------------------------------------------------------------------
 
 def load_registered_users():
-    """
-    Load the list of registered user IDs from JSON.
-    Returns a Python list of user IDs.
-    """
+
     if not os.path.exists(REGISTERED_USERS_FILE):
         return []
     try:
@@ -115,9 +97,7 @@ def load_registered_users():
         return []
 
 def save_registered_users(user_ids):
-    """
-    Save the list of registered user IDs to JSON.
-    """
+
     with open(REGISTERED_USERS_FILE, "w") as f:
         json.dump(user_ids, f)
 
@@ -127,7 +107,7 @@ def is_user_registered(user_id):
     return (user_id in registered)
 
 def register_user(user_id):
-    """Add the user_id to the JSON file if not already present."""
+
     registered = load_registered_users()
     if user_id not in registered:
         registered.append(user_id)
@@ -138,9 +118,7 @@ def register_user(user_id):
 # ----------------------------------------------------------------------------------
 
 def create_local_driver():
-    """
-    Create and return a new headless Chrome Selenium driver with stealth settings.
-    """
+
     chrome_options = Options()
     chrome_options.add_argument("--headless=new")
     chrome_options.add_argument("--no-sandbox")
@@ -187,10 +165,7 @@ def create_local_driver():
     return local_driver
 
 def click_google_consent_if_needed(driver, wait_seconds=2):
-    """
-    Attempts to click 'I agree' or 'Accept all' on Google's consent screen.
-    Sometimes the ID is #L2AGLb or #W0wltc. If not found, it does nothing.
-    """
+
     time.sleep(wait_seconds)
     possible_selectors = [
         "button#L2AGLb",        # Common "I Agree" button => @Mod_By_Kamal
@@ -212,15 +187,7 @@ def click_google_consent_if_needed(driver, wait_seconds=2):
 # ----------------------------------------------------------------------------------
 
 def google_search(query: str, limit: int = 10, offset: int = 0):
-    """
-    Paginate Google search in increments of 100 results per page.
-    Return up to 'limit' unique result URLs (starting from 'offset').
 
-    We also try to handle Google's cookie consent screen by clicking the "I agree" button.
-    We'll use the updated selector: <div.yuRUbf> <a> for links.
-
-    Additionally, we append `hl=en&gl=us` to help standardize the interface.
-    """
     all_links = []
     seen = set()
 
@@ -507,10 +474,7 @@ async def cmd_cmds(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(text)
 
 async def cmd_dork(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    Parse the query by splitting from the right so that the
-    last space-separated token is the count. Everything before is the query.
-    """
+
     user_id = update.effective_user.id
     if not is_user_registered(user_id):
         await update.message.reply_text("You must /register before using /dork.")
@@ -655,10 +619,7 @@ async def cmd_bord(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ----------------------------------------------------------------------------------
 
 async def fallback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    If user types something that's NOT recognized as a command,
-    do nothing (or you can do a generic "Unknown command" response).
-    """
+
     pass
 
 # ----------------------------------------------------------------------------------
